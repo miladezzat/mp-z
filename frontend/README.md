@@ -2,6 +2,8 @@
 
 A modern e-commerce frontend built with Next.js 15, TypeScript, Redux Toolkit, and NextUI.
 
+> 📚 **See Also**: [ASSUMPTION.md](./ASSUMPTION.md) - Key architectural decisions, tech stack details, and setup summary
+
 ## 🚀 Tech Stack
 
 - **Framework**: Next.js 15 (App Router)
@@ -17,9 +19,50 @@ A modern e-commerce frontend built with Next.js 15, TypeScript, Redux Toolkit, a
 
 - Node.js 20.x+
 - npm or yarn
-- Backend API running on `http://localhost:3000`
+- **Backend API running on `http://localhost:3000`**
 
-## 🛠️ Setup Instructions
+### Backend Setup (Required)
+
+The frontend requires the backend API to be running. Follow these steps:
+
+1. **Navigate to backend directory**
+
+   ```bash
+   cd ../backend
+   ```
+
+2. **Install backend dependencies**
+
+   ```bash
+   npm install
+   ```
+
+3. **Configure backend environment**
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   Edit `.env` with your configuration:
+
+   ```env
+   PORT=3000
+   NODE_ENV=development
+   JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
+   JWT_EXPIRES_IN=7d
+   ```
+
+4. **Start the backend server**
+
+   ```bash
+   npm start
+   ```
+
+   Backend will be available at `http://localhost:3000`
+
+> 📖 **Backend Documentation**: See `../backend/README.md` for full API documentation, endpoints, and features
+
+## 🛠️ Frontend Setup Instructions
 
 ### 1. Install Dependencies
 
@@ -55,6 +98,8 @@ npm run dev
 ```
 
 The application will be available at `http://localhost:3001`
+
+> ⚠️ **Important**: Ensure the backend is running on port 3000 before starting the frontend
 
 ## 📝 Available Scripts
 
@@ -301,15 +346,22 @@ frontend/
 ### Port Already in Use
 
 ```bash
-# Kill process on port 3001
+# Kill process on port 3001 (frontend)
 lsof -ti:3001 | xargs kill -9
+
+# Kill process on port 3000 (backend)
+lsof -ti:3000 | xargs kill -9
 ```
 
 ### API Connection Issues
 
-- Ensure backend is running on `http://localhost:3000`
-- Check `BACKEND_API_URL` in `.env.local`
-- Verify CORS settings on backend
+- **Ensure backend is running**: Navigate to `../backend` and run `npm start`
+- **Check backend health**: Visit `http://localhost:3000/api/health` in your browser
+- **Verify environment variables**: Check `BACKEND_API_URL` in `.env.local`
+- **CORS errors**: Backend is configured to accept requests from `http://localhost:3001`
+- **Authentication issues**: Use test credentials from backend's mock data:
+  - Email: `john.doe@example.com`
+  - Password: `password123`
 
 ### Test Failures
 
@@ -331,3 +383,28 @@ rm -rf .next
 rm -rf node_modules package-lock.json
 npm install
 ```
+
+## 📚 Additional Documentation
+
+- **[ASSUMPTION.md](./ASSUMPTION.md)** - Architecture decisions, tech stack rationale, and setup summary
+- **[TECHNICAL_DECISIONS.md](./TECHNICAL_DECISIONS.md)** - Detailed technical choices and trade-offs
+- **[ARCHITECTURE.md](./ARCHITECTURE.md)** - System architecture and component design
+- **[CACHING_STRATEGY.md](./CACHING_STRATEGY.md)** - RTK Query caching and invalidation strategy
+- **[UX_DESIGN.md](./UX_DESIGN.md)** - User experience design decisions
+- **Backend README**: `../backend/README.md` - Complete API documentation
+
+## 🧑‍💻 Test Credentials
+
+Use these credentials to test the application (from backend mock data):
+
+**Regular User:**
+
+- Email: `john.doe@example.com`
+- Password: `password123`
+
+**Admin User:**
+
+- Email: `admin@marketplace.com`
+- Password: `password123`
+
+> 💡 **Tip**: The backend uses in-memory storage, so data resets when the server restarts
