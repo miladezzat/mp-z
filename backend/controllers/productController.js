@@ -72,7 +72,11 @@ export const getProducts = (req, res, next) => {
 
 export const getProductById = (req, res, next) => {
   try {
-    const product = db.getProductById(req.params.id);
+    // Try to find by id first, then by slug
+    let product = db.getProductById(req.params.id);
+    if (!product) {
+      product = db.getProductBySlug(req.params.id);
+    }
     
     if (!product) {
       return res.status(404).json({
@@ -82,7 +86,7 @@ export const getProductById = (req, res, next) => {
     }
 
     // Get reviews for this product
-    const reviews = db.getReviewsByProduct(req.params.id);
+    const reviews = db.getReviewsByProduct(product.id);
 
     res.json({
       success: true,

@@ -51,12 +51,15 @@ export const getOrders = (req, res, next) => {
 };
 export const createOrder = (req, res, next) => {
   try {
-    const { items, shippingAddress, paymentMethod } = req.body;
+    const { shippingAddress, paymentMethod } = req.body;
 
-    if (!items || items.length === 0) {
+    // Get items from user's cart
+    const cartItems = db.getCartByUser(req.user.id);
+    
+    if (!cartItems || cartItems.length === 0) {
       return res.status(400).json({
         success: false,
-        message: 'Order must contain at least one item'
+        message: 'Cart is empty'
       });
     }
 
@@ -64,7 +67,7 @@ export const createOrder = (req, res, next) => {
     let subtotal = 0;
     const orderItems = [];
 
-    for (const item of items) {
+    for (const item of cartItems) {
       const product = db.getProductById(item.productId);
       if (!product) {
         return res.status(404).json({

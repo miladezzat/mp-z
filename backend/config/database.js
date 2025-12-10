@@ -49,6 +49,7 @@ const db = {
   // Products
   getProducts: () => products,
   getProductById: (id) => products.find(p => p.id === id),
+  getProductBySlug: (slug) => products.find(p => p.slug === slug),
   getProductsByCategory: (categoryId) => products.filter(p => p.categoryId === categoryId),
   getProductsBySeller: (sellerId) => products.filter(p => p.sellerId === sellerId),
   createProduct: (product) => {
