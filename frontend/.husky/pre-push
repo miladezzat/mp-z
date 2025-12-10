@@ -1,0 +1,29 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+cd frontend
+
+echo "🔍 Running pre-push checks..."
+
+# Run type checking
+echo "📝 Type checking..."
+npm run type-check || {
+  echo "❌ Type check failed. Please fix type errors before pushing."
+  exit 1
+}
+
+# Run linter
+echo "🔧 Linting..."
+npm run lint || {
+  echo "❌ Linting failed. Please fix linting errors before pushing."
+  exit 1
+}
+
+# Run tests
+echo "🧪 Running tests..."
+npm test -- --watchAll=false || {
+  echo "❌ Tests failed. Please fix failing tests before pushing."
+  exit 1
+}
+
+echo "✅ All pre-push checks passed!"

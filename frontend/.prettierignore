@@ -1,0 +1,30 @@
+# Dependencies
+node_modules
+package-lock.json
+
+# Build outputs
+.next
+out
+dist
+build
+
+# Cache
+.turbo
+.eslintcache
+
+# Testing
+coverage
+
+# Misc
+.DS_Store
+*.log
+*.lock
+
+# IDE
+.vscode
+.idea
+
+# Environment
+.env
+.env.local
+.env.production
